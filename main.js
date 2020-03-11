@@ -2,32 +2,25 @@ const socket = io('https://rtc-start-kit-full.herokuapp.com/');
 
 $('#div-chat').hide();
 
-let o = {
-    format: "urls"
-};
+let customConfig;
 
-let bodyString = JSON.stringify(o);
-import { request } from "https";
-let options = {
-    host: "global.xirsys.net",
-    path: "/_turn/lelinh47.github.io",
-    method: "PUT",
-    headers: {
-        "Authorization": "Basic " + Buffer.from("lelinh47:03451670-5711-11ea-ae83-0242ac110004").toString("base64"),
-        "Content-Type": "application/json",
-        "Content-Length": bodyString.length
-    }
-};
-let httpreq = request(options, function(httpres) {
-    let str = "";
-    httpres.on("data", function(data){ str += data; });
-    httpres.on("error", function(e){ console.log("error: ",e); });
-    httpres.on("end", function(){ 
-        console.log("ICE List: ", str);
-    });
+$.ajax({
+  url: "https://service.xirsys.com/ice",
+  data: {
+    ident: "lelinh47",
+    secret: "03451670-5711-11ea-ae83-0242ac110004",
+    domain: "lelinh47.github.io",
+    application: "default",
+    room: "default",
+    secure: 1
+  },
+  success: function (data, status) {
+    // data.d is where the iceServers object lives
+    customConfig = data.d;
+    console.log(customConfig);
+  },
+  async: false
 });
-httpreq.on("error", function(e){ console.log("request error: ",e); });
-httpreq.end();
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
@@ -67,6 +60,7 @@ const peer = new Peer({
     host: 'lelinh.herokuapp.com', 
     secure: true, 
     port: 443, 
+    config: customConfig 
 });
 
 peer.on('open', id  => {
