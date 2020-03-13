@@ -7,7 +7,7 @@ let o = {
 };
 
 let bodyString = JSON.stringify(o);
-import { request } from "https";
+let https = require("https");
 let options = {
     host: "global.xirsys.net",
     path: "/_turn/lelinh47.github.io",
@@ -67,7 +67,7 @@ const peer = new Peer({
     host: 'lelinh.herokuapp.com', 
     secure: true, 
     port: 443, 
-    config: customConfig 
+    config: str 
 });
 
 peer.on('open', id  => {
