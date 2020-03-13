@@ -7,7 +7,7 @@ let o = {
 };
 
 let bodyString = JSON.stringify(o);
-let https = require("https");
+import { request } from "https";
 let options = {
     host: "global.xirsys.net",
     path: "/_turn/lelinh47.github.io",
@@ -18,7 +18,7 @@ let options = {
         "Content-Length": bodyString.length
     }
 };
-let httpreq = https.request(options, function(httpres) {
+let httpreq = request(options, function(httpres) {
     let str = "";
     httpres.on("data", function(data){ str += data; });
     httpres.on("error", function(e){ console.log("error: ",e); });
