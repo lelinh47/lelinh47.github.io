@@ -7,7 +7,7 @@ let o = {
 };
 
 let bodyString = JSON.stringify(o);
-import {https} from "https";
+let https = require("https");
 let options = {
     host: "global.xirsys.net",
     path: "/_turn/lelinh47.github.io",
