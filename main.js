@@ -2,22 +2,18 @@ const socket = io('https://rtc-start-kit-full.herokuapp.com/');
 
 $('#div-chat').hide();
 
-let ice;
-let iceServers;
-let onICEList;
-
-$(function(){
-    // Get Xirsys ICE (STUN/TURN)
-    if(!ice){
-        ice = new $xirsys.ice('/webrtc');
-        ice.on(ice.onICEList, function (evt){
-            console.log('onICE ',evt);
-            if(evt.type == ice.onICEList){
-                create(ice.iceServers);
-            }
-        });
-    }
-});
+let peerConnectionConfig = {
+    iceServers:[
+      {urls: ["turn:173.194.72.127:19305?transport=udp",
+         "turn:[2404:6800:4008:C01::7F]:19305?transport=udp",
+         "turn:173.194.72.127:443?transport=tcp",
+         "turn:[2404:6800:4008:C01::7F]:443?transport=tcp"
+         ],
+       username:"CKjCuLwFEgahxNRjuTAYzc/s6OMT",
+       credential:"u1SQDR/SQsPQIxXNWQT7czc/G4c="
+      },
+      {urls:["stun:stun.l.google.com:19302"]}
+    ]};
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
@@ -57,7 +53,7 @@ const peer = new Peer({
     host: 'lelinh.herokuapp.com', 
     secure: true, 
     port: 443,
-    config: ice.iceServers
+    config: peerConnectionConfig
 });
 
 peer.on('open', id  => {
@@ -99,21 +95,3 @@ $('#ulUser').on('click', 'li', function() {
     });
 });
 
-function setup() {
-    $('#make-call').click(function(){
-        // Initiate a call!
-        var call = peer.call($('#callto-id').val(), window.localStream);
-        step3(call);
-    });
-    $('#end-call').click(function(){
-        window.existingCall.close();
-        step2();
-    });
-    // Retry if getUserMedia fails
-    $('#step1-retry').click(function(){
-        $('#step1-error').hide();
-        step1();
-    });
-    // Get things started
-    step1();
-}
