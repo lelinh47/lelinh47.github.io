@@ -2,11 +2,18 @@ const socket = io('https://rtc-start-kit-full.herokuapp.com/');
 
 $('#div-chat').hide();
 
-let options = {
-    host: "global.xirsys.net",
-    path: "/_turn/lelinh47.github.io",
-    method: "PUT",
-}
+$(function(){
+    // Get Xirsys ICE (STUN/TURN)
+    if(!ice){
+        ice = new $xirsys.ice('/webrtc');
+        ice.on(ice.onICEList, function (evt){
+            console.log('onICE ',evt);
+            if(evt.type == ice.onICEList){
+                create(ice.iceServers);
+            }
+        });
+    }
+});
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
@@ -46,6 +53,7 @@ const peer = new Peer({
     host: 'lelinh.herokuapp.com', 
     secure: true, 
     port: 443,
+    config: ice.iceServers
 });
 
 peer.on('open', id  => {
@@ -86,3 +94,22 @@ $('#ulUser').on('click', 'li', function() {
         call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
     });
 });
+
+function setup() {
+    $('#make-call').click(function(){
+        // Initiate a call!
+        var call = peer.call($('#callto-id').val(), window.localStream);
+        step3(call);
+    });
+    $('#end-call').click(function(){
+        window.existingCall.close();
+        step2();
+    });
+    // Retry if getUserMedia fails
+    $('#step1-retry').click(function(){
+        $('#step1-error').hide();
+        step1();
+    });
+    // Get things started
+    step1();
+}
