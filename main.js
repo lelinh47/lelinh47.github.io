@@ -6,25 +6,7 @@ let options = {
     host: "global.xirsys.net",
     path: "/_turn/lelinh47.github.io",
     method: "PUT",
-    headers: {
-        "Authorization": "Basic " + Buffer.from("lelinh47:03451670-5711-11ea-ae83-0242ac110004").toString("base64"),
-        "Content-Type": "application/json",
-        "Content-Length": bodyString.length
-    }
 }
-
-$(function(){
-    // Get Xirsys ICE (STUN/TURN)
-    if(!ice){
-        ice = new $xirsys.ice('/webrtc');
-        ice.on(ice.onICEList, function (evt){
-            console.log('onICE ',evt);
-            if(evt.type == ice.onICEList){
-                create(ice.iceServers);
-            }
-        });
-    }
-});
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
