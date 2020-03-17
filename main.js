@@ -2,26 +2,6 @@ const socket = io('https://rtc-start-kit-full.herokuapp.com/');
 
 $('#div-chat').hide();
 
-let customConfig;
-
-$.ajax({
-  url: "https://service.xirsys.com/ice",
-  data: {
-    ident: "lelinh47",
-    secret: "03451670-5711-11ea-ae83-0242ac110004",
-    domain: "lelinh47.github.io",
-    application: "default",
-    room: "default",
-    secure: 1
-  },
-  success: function (data, status) {
-    // data.d is where the iceServers object lives
-    customConfig = data.d;
-    console.log(customConfig);
-  },
-  async: true
-});
-
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
     $('#div-dang-ky').hide(); 
@@ -61,7 +41,6 @@ const peer = new Peer({
     host: 'lelinh.herokuapp.com', 
     secure: true, 
     port: 443,
-    config: customConfig
 });
 
 peer.on('open', id  => {
