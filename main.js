@@ -89,7 +89,7 @@ $(function(){
         });
     }
 });
-console.log('ice.iceServers');
+console.log(ice.iceServers);
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
