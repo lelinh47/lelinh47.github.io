@@ -109,6 +109,7 @@ console.log('$xirsys.ice Loaded Successfuly!!!');
 _ice = null;
 
 let ice;
+let iceServers;
 
 $(function(){
     // Get Xirsys ICE (STUN/TURN)
