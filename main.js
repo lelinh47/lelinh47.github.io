@@ -19,7 +19,7 @@ $.ajax({
     customConfig = data.d;
     console.log(customConfig);
   },
-  async: false
+  async: true
 });
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
