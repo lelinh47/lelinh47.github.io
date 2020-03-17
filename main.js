@@ -5,10 +5,12 @@ $('#div-chat').hide();
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
     $('#div-dang-ky').hide(); 
+
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
         $('#ulUser').append(`<li id="${peerId}">${ten}</li>`);
     });
+
     socket.on('CO_NGUOI_DUNG_MOI', user =>{
         const { ten, peerId } = user;
         $('#ulUser').append(`<li id="${peerId}">${ten}</li>`);
@@ -44,7 +46,7 @@ const peer = new Peer({
 });
 
 peer.on('open', id  => {
-    $('#my-peer').append(id)
+    $('#my-peer').append(id);
     $('#btnSignUp').click(() => {
         const username = $('#txtUsername').val();
         socket.emit('NGUOI_DUNG_DANG_KY', {ten: username, peerId: id});
