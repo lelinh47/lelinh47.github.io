@@ -2,18 +2,32 @@ const socket = io('https://rtc-start-kit-full.herokuapp.com/');
 
 $('#div-chat').hide();
 
-let peerConnectionConfig = {
-    iceServers:[
-      {urls: ["turn:173.194.72.127:19305?transport=udp",
-         "turn:[2404:6800:4008:C01::7F]:19305?transport=udp",
-         "turn:173.194.72.127:443?transport=tcp",
-         "turn:[2404:6800:4008:C01::7F]:443?transport=tcp"
-         ],
-       username:"CKjCuLwFEgahxNRjuTAYzc/s6OMT",
-       credential:"u1SQDR/SQsPQIxXNWQT7czc/G4c="
-      },
-      {urls:["stun:stun.l.google.com:19302"]}
-    ]};
+let o = {
+    format: "urls"
+};
+
+let bodyString = JSON.stringify(o);
+let https = require("https");
+let options = {
+    host: "global.xirsys.net",
+    path: "/_turn/lelinh47.github.io",
+    method: "PUT",
+    headers: {
+        "Authorization": "Basic " + Buffer.from("lelinh47:03451670-5711-11ea-ae83-0242ac110004").toString("base64"),
+        "Content-Type": "application/json",
+        "Content-Length": bodyString.length
+    }
+};
+let httpreq = https.request(options, function(httpres) {
+    let str = "";
+    httpres.on("data", function(data){ str += data; });
+    httpres.on("error", function(e){ console.log("error: ",e); });
+    httpres.on("end", function(){ 
+        console.log("ICE List: ", str);
+    });
+});
+httpreq.on("error", function(e){ console.log("request error: ",e); });
+httpreq.end();
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
