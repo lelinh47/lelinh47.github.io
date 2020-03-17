@@ -75,7 +75,7 @@ _ice.prototype.emit = function(sEvent, data){
 console.log('$xirsys.ice Loaded Successfuly!!!');
 _ice = null;
 
-let peer, ice;
+let ice;
 
 $(function(){
     // Get Xirsys ICE (STUN/TURN)
