@@ -40,7 +40,6 @@ const peer = new Peer({
     host: 'lelinh.herokuapp.com', 
     secure: true, 
     port: 443,
-    config: peerConnectionConfig
 });
 
 peer.on('open', id  => {
