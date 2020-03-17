@@ -89,6 +89,7 @@ $(function(){
         });
     }
 });
+console.log('ice.iceServers');
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
@@ -128,7 +129,6 @@ const peer = new Peer({
     host: 'lelinh.herokuapp.com', 
     secure: true, 
     port: 443,
-    config: iceServers
 });
 
 peer.on('open', id  => {
