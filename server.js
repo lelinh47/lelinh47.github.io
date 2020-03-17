@@ -1,26 +1,33 @@
-let o = {
-    format: "urls"
+const https = require('https');
+const http = require('http');
+const app = require('./app');
+const fs = require('fs');
+const config = require('config');
+const  httpport = process.env.PORT || config.get('host').httpport ||3080,
+       httpsport = process.env.SECURE_PORT || config.get('host').httpsport ||3443;
+
+var httpsOptions = {
+    key: fs.readFileSync('./app/cert/server.key')
+    , cert: fs.readFileSync('./app/cert/server.crt')
 };
 
-let bodyString = JSON.stringify(o);
-const https = require('https');
-let options = {
-    host: "global.xirsys.net",
-    path: "/_turn/lelinh47.github.io",
-    method: "PUT",
-    headers: {
-        "Authorization": "Basic " + Buffer.from("lelinh47:03451670-5711-11ea-ae83-0242ac110004").toString("base64"),
-        "Content-Type": "application/json",
-        "Content-Length": bodyString.length
+app.all('*', function(req, res, next) {
+     if (req.secure) {
+         return next();
     }
-};
-let httpreq = https.request(options, function(httpres) {
-    let str = "";
-    httpres.on("data", function(data){ str += data; });
-    httpres.on("error", function(e){ console.log("error: ",e); });
-    httpres.on("end", function(){ 
-        console.log("ICE List: ", str);
-    });
+     res.redirect('https://localhost:'+httpsport+req.url);
 });
-httpreq.on("error", function(e){ console.log("request error: ",e); });
-httpreq.end();
+
+https.createServer(httpsOptions, app).listen(httpsport, function (err) {
+    if (err) {
+        throw err
+    }
+    console.log('Secure server is listening on '+httpsport+'...');
+});
+
+http.createServer(app).listen(httpport, function(err) {
+    if (err) {
+        throw err
+    }
+    console.log('Insecure server is listening on port ' + httpport + '...');
+});

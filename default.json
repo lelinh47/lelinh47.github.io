@@ -1,0 +1,31 @@
+{
+    "xirsys": {
+      "gateway": "global.xirsys.net",
+      "info": {
+        "ident": "lelinh47",
+        "secret": "03451670-5711-11ea-ae83-0242ac110004",
+        "channel": "lelinh47.github.io"
+      },
+      "allowedServices": ["/_token", "/_host", "/_data", "/_ns", "/_turn"],
+      "overrideAllowedChannel": false,
+      "gateways": [
+        "ws.xirsys.com",
+        "us.xirsys.com",
+        "es.xirsys.com",
+        "tk.xirsys.com",
+        "bs.xirsys.com",
+        "sh.xirsys.com",
+        "ss.xirsys.com",
+        "ms.xirsys.com",
+        "to.xirsys.com",
+        "sp.xirsys.com"
+      ]
+    },
+    "host":{
+      "httpport": 3080,
+      "httpsport": 3443
+    },
+    "maxmind": {
+      "db": "hosted"
+    }
+  }
