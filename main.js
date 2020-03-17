@@ -6,7 +6,6 @@ let o = {
     format: "urls"
 };
 
-let https = require ('https');
 let Buffer = require ('buffer');
 let bodyString = JSON.stringify(o);
 let options = {
