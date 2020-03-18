@@ -17,6 +17,7 @@ $(function(){
     }
 });
 
+let iceServers
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
