@@ -2,7 +2,7 @@ const socket = io('https://rtc-start-kit-full.herokuapp.com/');
 
 $('#div-chat').hide();
 
-let peer, ice;
+let ice;
 
 $(function(){
     // Get Xirsys ICE (STUN/TURN)
