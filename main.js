@@ -57,6 +57,7 @@ const peer = new Peer({
     host: 'lelinh.herokuapp.com', 
     secure: true, 
     port: 443,
+    debug: 3,
     config: ice.iceServers});
 
 peer.on('open', id  => {
