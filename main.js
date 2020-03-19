@@ -58,7 +58,9 @@ const peer = new Peer({
     secure: true, 
     port: 443,
     debug: 3,
-    iceServers: ice.iceServers
+    config: {
+        iceServers:[]
+    }
 });
 
 peer.on('open', id  => {
