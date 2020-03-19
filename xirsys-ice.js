@@ -13,7 +13,7 @@ var _ice = $xirsys.ice = function (apiUrl, info) {
 _ice.prototype.onICEList = 'onICEList';
 
 _ice.prototype.doICE = function () {
-    console.log('*ice*  doICE: ',this.apiUrl);
+    console.log('*ice*  doICE: ',this.apiUrl+"/_turn"+this.channelPath);
     var own = this;
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function($evt){
