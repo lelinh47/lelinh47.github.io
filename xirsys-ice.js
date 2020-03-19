@@ -1,14 +1,18 @@
 /*********************************************************************************
-  The MIT License (MIT)
+  The MIT License (MIT) 
+
   Copyright (c) 2017 Xirsys
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -16,6 +20,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
+
 *********************************************************************************/
 
 if(!$xirsys) var $xirsys = new Object();
@@ -30,17 +35,13 @@ var _ice = $xirsys.ice = function (apiUrl, info) {
 
     this.iceServers;
     if(!!this.apiUrl){
-        if(this.info.ident && this.info.secret){
-            this.doICE(this.info.ident, this.info.secret);//first get our token.
-        }else {
-            this.doICE();
-        }
+        this.doICE();//first get our token.
     }
 }
 
 _ice.prototype.onICEList = 'onICEList';
 
-_ice.prototype.doICE = function (ident,secret) {
+_ice.prototype.doICE = function () {
     console.log('*ice*  doICE: ',this.apiUrl+"/_turn"+this.channelPath);
     var own = this;
     var xhr = new XMLHttpRequest();
@@ -49,13 +50,12 @@ _ice.prototype.doICE = function (ident,secret) {
             var res = JSON.parse(xhr.responseText);
             console.log('*ice*  response: ',res);
             own.iceServers = own.filterPaths(res.v.iceServers);
-
+            
             own.emit(own.onICEList);
         }
     }
-    var path = this.apiUrl+"/_turn/"+this.channelPath;
+    var path = this.apiUrl+"/_turn"+this.channelPath;
     xhr.open("PUT", path, true);
-    if(ident && secret)xhr.setRequestHeader ("Authorization", "Basic " + btoa(`${ident}:${secret}`) );
     xhr.send();
 }
 
@@ -95,14 +95,8 @@ _ice.prototype.on = function(sEvent,cbFunc){
     this.evtListeners[sEvent].push(cbFunc);
 }
 _ice.prototype.off = function(sEvent,cbFunc){
-    if (!this.evtListeners.hasOwnProperty(sEvent)) return false;//end
-
-    var index = this.evtListeners[sEvent].indexOf(cbFunc);
-    if (index != -1) {
-        this.evtListeners[sEvent].splice(index, 1);
-        return true;//else end here.
-    }
-    return false;//else end here.
+    //console.log('off');
+    this.evtListeners.push(cbFunc);
 }
 
 _ice.prototype.emit = function(sEvent, data){
