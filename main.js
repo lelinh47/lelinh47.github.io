@@ -37,20 +37,47 @@ function playStream(idVideoTag, stream) {
 // openStream()
 // .then(stream => playStream('localStream', stream));
 
-let ice;
+let o = {
+    format: "urls"
+};
 
-$(function(){
-    // Get Xirsys ICE (STUN/TURN)
-    if(!ice){
-        ice = new $xirsys.ice('/webrtc');
-        ice.on(ice.onICEList, function (evt){
-            console.log('onICE ',evt);
-            if(evt.type == ice.onICEList){
-                create(ice.iceServers);
-            }
-        });
+let bodyString = JSON.stringify(o);
+let https = require("https");
+let options = {
+    host: "global.xirsys.net",
+    path: "/_turn/lelinh47.github.io",
+    method: "PUT",
+    headers: {
+        "Authorization": "Basic " + Buffer.from("lelinh47:03451670-5711-11ea-ae83-0242ac110004").toString("base64"),
+        "Content-Type": "application/json",
+        "Content-Length": bodyString.length
     }
+};
+let httpreq = https.request(options, function(httpres) {
+    let str = "";
+    httpres.on("data", function(data){ str += data; });
+    httpres.on("error", function(e){ console.log("error: ",e); });
+    httpres.on("end", function(){ 
+        console.log("ICE List: ", str);
+    });
 });
+httpreq.on("error", function(e){ console.log("request error: ",e); });
+httpreq.end();
+
+// let ice;
+
+// $(function(){
+//     // Get Xirsys ICE (STUN/TURN)
+//     if(!ice){
+//         ice = new $xirsys.ice('/webrtc');
+//         ice.on(ice.onICEList, function (evt){
+//             console.log('onICE ',evt);
+//             if(evt.type == ice.onICEList){
+//                 create(ice.iceServers);
+//             }
+//         });
+//     }
+// });
 
 const peer = new Peer({
     key: 'peerjs', 
@@ -58,18 +85,16 @@ const peer = new Peer({
     secure: true, 
     port: 443,
     debug: 3,
-    config: {
-        iceServers:[]
-    }
+    config: o
 });
 
-peer.on('open', id  => {
-    $('#my-peer').append(id);
-    $('#btnSignUp').click(() => {
-        const username = $('#txtUsername').val();
-        socket.emit('NGUOI_DUNG_DANG_KY', {ten: username, peerId: id});
-    });
-});
+// peer.on('open', id  => {
+//     $('#my-peer').append(id);
+//     $('#btnSignUp').click(() => {
+//         const username = $('#txtUsername').val();
+//         socket.emit('NGUOI_DUNG_DANG_KY', {ten: username, peerId: id});
+//     });
+// });
 
 //Caller
 $('#btnCall').click(() => {
