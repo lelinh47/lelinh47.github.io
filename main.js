@@ -49,8 +49,10 @@ $(function(){
                 create(ice.iceServers);
             }
         });
+        console.log('#1 '+ice.iceServers)
     }
-});
+    console.log('#2 '+ice.iceServers)
+})();
 
 const peer = new Peer({
     key: 'peerjs', 
