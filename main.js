@@ -99,28 +99,15 @@ $('#btnCall').click(() => {
 });
 
 
-// peer.on('call', call => {
-//     openStream()
-//     .then(stream => {
-//         call.answer(stream);
-//         //playLocalStream('localStream', stream);
-//         call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
-//     });
-// });
-
-
-//Callee
-//var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
-peer.on('call', function(call) {  
-    const config = { audio: true, video: true};
-    var stream = navigator.mediaDevices.getUserMedia(config);
-    call.answer(stream); // Answer the call with an A/V stream.
-    call.on('stream', function(remote) {
-      // Show stream in some video/canvas element.
-
-      playRemoteStream('remoteStream', remote);
-    });  
+peer.on('call', call => {
+    openStream()
+    .then(stream => {
+        call.answer(stream);
+        //playLocalStream('localStream', stream);
+        call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
+    });
 });
+
 
 $('#ulUser').on('click', 'li', function() {
     const id = $(this).attr('id');
@@ -131,16 +118,6 @@ $('#ulUser').on('click', 'li', function() {
          const call = peer.call(id, stream);
         
          call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
-     });
-
-    //var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
-    // const config = { audio: true, video: true};
-    // var stream = navigator.mediaDevices.getUserMedia(config);
-    // var call = peer.call(id, stream);
-    // call.on('stream', function(remote) {
-    //         // Show stream in some video/canvas element.
-
-    //         playRemoteStream('remoteStream', remote);
-    //     });   
+     }); 
 });
 
