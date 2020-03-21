@@ -80,33 +80,73 @@ peer.on('open', id  => {
 //Caller
 $('#btnCall').click(() => {
     const id = $('#remoteId').val();
-    openStream()
-    .then(stream => {
-        //playLocalStream('localStream', stream);
-        const call = peer.call(id, stream);
-        call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
+    // openStream()
+    // .then(stream => {
+    //     //playLocalStream('localStream', stream);
+    //     const call = peer.call(id, stream);
+    //     call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
+    // });
+
+    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    getUserMedia({video: true, audio: true}, function(stream) {
+    var call = peer.call(id, stream);
+    call.on('stream', function(remote) {
+            // Show stream in some video/canvas element.
+
+            playRemoteStream('remoteStream', remote);
+        });
+    }, function(err) {
+        console.log('Failed to get local stream', err);
     });
 });
 
+
+// peer.on('call', call => {
+//     openStream()
+//     .then(stream => {
+//         call.answer(stream);
+//         //playLocalStream('localStream', stream);
+//         call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
+//     });
+// });
+
+
 //Callee
-peer.on('call', call => {
-    openStream()
-    .then(stream => {
-        call.answer(stream);
-        //playLocalStream('localStream', stream);
-        call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
+var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+peer.on('call', function(call) {  
+  getUserMedia({video: true, audio: true}, function(stream) {
+    call.answer(stream); // Answer the call with an A/V stream.
+    call.on('stream', function(remote) {
+      // Show stream in some video/canvas element.
+
+      playRemoteStream('remoteStream', remote);
     });
+  }, function(err) {
+    console.log('Failed to get local stream' ,err);
+  });
 });
 
 $('#ulUser').on('click', 'li', function() {
     const id = $(this).attr('id');
     console.log(id);
-    openStream()
-    .then(stream => {
-        //playLocalStream('localStream', stream);
-        const call = peer.call(id, stream);
+    // openStream()
+    // .then(stream => {
+    //     //playLocalStream('localStream', stream);
+    //     const call = peer.call(id, stream);
         
-        call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
+    //     call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
+    // });
+
+    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    getUserMedia({video: true, audio: true}, function(stream) {
+    var call = peer.call(id, stream);
+    call.on('stream', function(remote) {
+            // Show stream in some video/canvas element.
+
+            playRemoteStream('remoteStream', remote);
+        });
+    }, function(err) {
+        console.log('Failed to get local stream', err);
     });
 });
 
