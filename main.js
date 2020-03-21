@@ -125,22 +125,22 @@ peer.on('call', function(call) {
 $('#ulUser').on('click', 'li', function() {
     const id = $(this).attr('id');
     console.log(id);
-    // openStream()
-    // .then(stream => {
-    //     //playLocalStream('localStream', stream);
-    //     const call = peer.call(id, stream);
+     openStream()
+     .then(stream => {
+         //playLocalStream('localStream', stream);
+         const call = peer.call(id, stream);
         
-    //     call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
-    // });
+         call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
+     });
 
     //var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
-    const config = { audio: true, video: true};
-    var stream = navigator.mediaDevices.getUserMedia(config);
-    var call = peer.call(id, stream);
-    call.on('stream', function(remote) {
-            // Show stream in some video/canvas element.
+    // const config = { audio: true, video: true};
+    // var stream = navigator.mediaDevices.getUserMedia(config);
+    // var call = peer.call(id, stream);
+    // call.on('stream', function(remote) {
+    //         // Show stream in some video/canvas element.
 
-            playRemoteStream('remoteStream', remote);
-        });   
+    //         playRemoteStream('remoteStream', remote);
+    //     });   
 });
 
