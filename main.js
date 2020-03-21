@@ -2,7 +2,7 @@ const socket = io('https://rtc-start-kit-full.herokuapp.com/');
 
 $('#div-chat').hide();
 
-let customConfig;
+let customConfig = [];
 
 // xirsys
 $(function() {
@@ -10,7 +10,7 @@ $(function() {
     xhr.onreadystatechange = function($evt){
        if(xhr.readyState == 4 && xhr.status == 200){
            let res = JSON.parse(xhr.responseText);
-           customConfig = res.v.iceServers;           
+           customConfig = res.v.iceServers.urls;
        }
     }
     xhr.open("PUT", "https://global.xirsys.net/_turn/lelinh47.github.io", true);
@@ -79,7 +79,7 @@ const peer = new Peer({
     port: 443,
     debug: 3,
     config: {
-        iceServers: customConfig
+        'iceServers': customConfig
     }
 });
 
