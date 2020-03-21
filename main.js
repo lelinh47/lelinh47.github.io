@@ -41,7 +41,7 @@ let ice;
 
 $(function(){
     // Get Xirsys ICE (STUN/TURN)
-    if(!ice){
+    if(typeof ice == 'undefined' || ice == null){
         ice = new $xirsys.ice('/webrtc');
         ice.on(ice.onICEList, function (evt){
             console.log('onICE ',evt);
