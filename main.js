@@ -59,7 +59,7 @@ function playRemoteStream(idVideoTag, stream) {
 }
 
 const peer = new Peer({
-    key: 'peerjs', 
+    key: 'lwjd5qra8257b9', 
     host: 'lelinh.herokuapp.com', 
     secure: true, 
     port: 443,
