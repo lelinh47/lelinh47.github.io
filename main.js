@@ -87,7 +87,7 @@ $('#btnCall').click(() => {
     //     call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
     // });
 
-    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
     getUserMedia({video: true, audio: true}, function(stream) {
     var call = peer.call(id, stream);
     call.on('stream', function(remote) {
@@ -112,7 +112,7 @@ $('#btnCall').click(() => {
 
 
 //Callee
-var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
 peer.on('call', function(call) {  
   getUserMedia({video: true, audio: true}, function(stream) {
     call.answer(stream); // Answer the call with an A/V stream.
@@ -137,7 +137,7 @@ $('#ulUser').on('click', 'li', function() {
     //     call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
     // });
 
-    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
     getUserMedia({video: true, audio: true}, function(stream) {
     var call = peer.call(id, stream);
     call.on('stream', function(remote) {
