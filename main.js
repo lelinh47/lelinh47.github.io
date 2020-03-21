@@ -48,12 +48,12 @@ function openStream() {
 
 function playStream(idVideoTag, stream) {
     const video = document.getElementById(idVideoTag);
-    // video.srcObject = stream;
-    // video.play();
+    video.srcObject = stream;
+    video.play();
 
-    video.onplay = function() {      
-        video.srcObject = stream;
-      };
+    // video.onplay = function() {      
+    //     video.srcObject = stream;
+    //   };
 }
 
 // openStream()
@@ -124,7 +124,7 @@ $('#ulUser').on('click', 'li', function() {
         playStream('localStream', stream);
         const call = peer.call(id, stream);
         
-        //call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
+        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
     });
 });
 
