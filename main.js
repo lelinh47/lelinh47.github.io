@@ -79,7 +79,7 @@ const peer = new Peer({
     port: 443,
     debug: 3,
     config: {
-        'iceServers': customConfig
+        iceServers: customConfig
     }
 });
 
