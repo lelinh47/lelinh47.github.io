@@ -88,16 +88,13 @@ $('#btnCall').click(() => {
     // });
 
     //var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
-    navigator.mediaDevices.getUserMedia({video: true, audio: true}, function(stream) {
+    var stream = navigator.mediaDevices.getUserMedia({video: true, audio: true});
     var call = peer.call(id, stream);
     call.on('stream', function(remote) {
             // Show stream in some video/canvas element.
 
             playRemoteStream('remoteStream', remote);
-        });
-    }, function(err) {
-        console.log('Failed to get local stream', err);
-    });
+        });    
 });
 
 
@@ -114,16 +111,13 @@ $('#btnCall').click(() => {
 //Callee
 //var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
 peer.on('call', function(call) {  
-    navigator.mediaDevices.getUserMedia({video: true, audio: true}, function(stream) {
+    var stream = navigator.mediaDevices.getUserMedia({video: true, audio: true});
     call.answer(stream); // Answer the call with an A/V stream.
     call.on('stream', function(remote) {
       // Show stream in some video/canvas element.
 
       playRemoteStream('remoteStream', remote);
-    });
-  }, function(err) {
-    console.log('Failed to get local stream' ,err);
-  });
+    });  
 });
 
 $('#ulUser').on('click', 'li', function() {
@@ -138,15 +132,12 @@ $('#ulUser').on('click', 'li', function() {
     // });
 
     //var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
-    navigator.mediaDevices.getUserMedia({video: true, audio: true}, function(stream) {
+    var stream = navigator.mediaDevices.getUserMedia({video: true, audio: true});
     var call = peer.call(id, stream);
     call.on('stream', function(remote) {
             // Show stream in some video/canvas element.
 
             playRemoteStream('remoteStream', remote);
-        });
-    }, function(err) {
-        console.log('Failed to get local stream', err);
-    });
+        });   
 });
 
