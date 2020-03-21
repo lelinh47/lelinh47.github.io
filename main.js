@@ -46,35 +46,17 @@ function openStream() {
     return navigator.mediaDevices.getUserMedia(config);
 }
 
-function playStream(idVideoTag, stream) {
-    const video = document.getElementById(idVideoTag);
+function playLocalStream(idVideoTag, stream) {
+    var video = document.getElementById(idVideoTag);
     video.srcObject = stream;
     video.play();
-
-    // video.onplay = function() {      
-    //     video.srcObject = stream;
-    //   };
 }
 
-// openStream()
-// .then(stream => playStream('localStream', stream));
-
-// let ice;
-
-// $(function(){
-//     // Get Xirsys ICE (STUN/TURN)
-//     if(typeof ice == 'undefined' || ice == null){
-//         ice = new $xirsys.ice('/webrtc');
-//         ice.on(ice.onICEList, function (evt){
-//             console.log('onICE ',evt);
-//             if(evt.type == ice.onICEList){
-//                 create(ice.iceServers);
-//             }
-//         });
-//         console.log('#1 '+ice.iceServers)
-//     }
-//     console.log('#2 '+ice.iceServers)
-// });
+function playRemoteStream(idVideoTag, stream) {
+    var video = document.getElementById(idVideoTag);
+    video.srcObject = stream;
+    video.play();
+}
 
 const peer = new Peer({
     key: 'peerjs', 
@@ -100,9 +82,9 @@ $('#btnCall').click(() => {
     const id = $('#remoteId').val();
     openStream()
     .then(stream => {
-        playStream('localStream', stream);
+        playLocalStream('localStream', stream);
         const call = peer.call(id, stream);
-        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
+        call.on('stream', remoteStream => playRemoteStream('remoteStream', remoteStream));
     });
 });
 
@@ -111,8 +93,8 @@ peer.on('call', call => {
     openStream()
     .then(stream => {
         call.answer(stream);
-        playStream('localStream', stream);
-        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
+        playLocalStream('localStream', stream);
+        call.on('stream', remoteStream => playRemoteStream('remoteStream', remoteStream));
     });
 });
 
@@ -121,10 +103,10 @@ $('#ulUser').on('click', 'li', function() {
     console.log(id);
     openStream()
     .then(stream => {
-        playStream('localStream', stream);
+        playLocalStream('localStream', stream);
         const call = peer.call(id, stream);
         
-        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
+        call.on('stream', remoteStream => playRemoteStream('remoteStream', remoteStream));
     });
 });
 
