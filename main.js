@@ -52,7 +52,7 @@ function playStream(idVideoTag, stream) {
     // video.play();
 
     video.onplay = function() {      
-        rightVideo.srcObject = stream;
+        video.srcObject = stream;
       };
 }
 
