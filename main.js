@@ -49,13 +49,13 @@ function openStream() {
 function playLocalStream(idVideoTag, stream) {
     var video = document.getElementById(idVideoTag);
     video.srcObject = stream;
-    video.play();
+    //video.play();
 }
 
 function playRemoteStream(idVideoTag, stream) {
     var video = document.getElementById(idVideoTag);
     video.srcObject = stream;
-    video.play();
+    //video.play();
 }
 
 const peer = new Peer({
