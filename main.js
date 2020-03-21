@@ -2,6 +2,24 @@ const socket = io('https://rtc-start-kit-full.herokuapp.com/');
 
 $('#div-chat').hide();
 
+let customConfig;
+
+// xirsys
+$(function() {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function($evt){
+       if(xhr.readyState == 4 && xhr.status == 200){
+           let res = JSON.parse(xhr.responseText);
+           customConfig = res.v.iceServers;           
+       }
+    }
+    xhr.open("PUT", "https://global.xirsys.net/_turn/lelinh47.github.io", true);
+    xhr.setRequestHeader ("Authorization", "Basic " + btoa("lelinh47:03451670-5711-11ea-ae83-0242ac110004") );
+    xhr.setRequestHeader ("Content-Type", "application/json");
+    xhr.send( JSON.stringify({"format": "urls"}) );
+ });
+
+ // socket io
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
     $('#div-dang-ky').hide(); 
@@ -37,22 +55,22 @@ function playStream(idVideoTag, stream) {
 // openStream()
 // .then(stream => playStream('localStream', stream));
 
-let ice;
+// let ice;
 
-$(function(){
-    // Get Xirsys ICE (STUN/TURN)
-    if(typeof ice == 'undefined' || ice == null){
-        ice = new $xirsys.ice('/webrtc');
-        ice.on(ice.onICEList, function (evt){
-            console.log('onICE ',evt);
-            if(evt.type == ice.onICEList){
-                create(ice.iceServers);
-            }
-        });
-        console.log('#1 '+ice.iceServers)
-    }
-    console.log('#2 '+ice.iceServers)
-});
+// $(function(){
+//     // Get Xirsys ICE (STUN/TURN)
+//     if(typeof ice == 'undefined' || ice == null){
+//         ice = new $xirsys.ice('/webrtc');
+//         ice.on(ice.onICEList, function (evt){
+//             console.log('onICE ',evt);
+//             if(evt.type == ice.onICEList){
+//                 create(ice.iceServers);
+//             }
+//         });
+//         console.log('#1 '+ice.iceServers)
+//     }
+//     console.log('#2 '+ice.iceServers)
+// });
 
 const peer = new Peer({
     key: 'peerjs', 
@@ -61,7 +79,7 @@ const peer = new Peer({
     port: 443,
     debug: 3,
     config: {
-        iceServers:[]
+        iceServers: customConfig
     }
 });
 
