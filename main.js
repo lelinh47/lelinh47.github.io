@@ -82,7 +82,7 @@ $('#btnCall').click(() => {
     const id = $('#remoteId').val();
     openStream()
     .then(stream => {
-        playLocalStream('localStream', stream);
+        //playLocalStream('localStream', stream);
         const call = peer.call(id, stream);
         call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
     });
@@ -93,7 +93,7 @@ peer.on('call', call => {
     openStream()
     .then(stream => {
         call.answer(stream);
-        playLocalStream('localStream', stream);
+        //playLocalStream('localStream', stream);
         call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
     });
 });
@@ -103,7 +103,7 @@ $('#ulUser').on('click', 'li', function() {
     console.log(id);
     openStream()
     .then(stream => {
-        playLocalStream('localStream', stream);
+        //playLocalStream('localStream', stream);
         const call = peer.call(id, stream);
         
         call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
