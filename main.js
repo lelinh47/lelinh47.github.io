@@ -49,13 +49,13 @@ function openStream() {
 function playLocalStream(idVideoTag, stream) {
     var video = document.getElementById(idVideoTag);
     video.srcObject = stream;
-    //video.play();
+    video.play();
 }
 
 function playRemoteStream(idVideoTag, stream) {
     var video = document.getElementById(idVideoTag);
     video.srcObject = stream;
-    //video.play();
+    video.play();
 }
 
 const peer = new Peer({
@@ -80,25 +80,15 @@ peer.on('open', id  => {
 //Caller
 $('#btnCall').click(() => {
     const id = $('#remoteId').val();
-    // openStream()
-    // .then(stream => {
-    //     //playLocalStream('localStream', stream);
-    //     const call = peer.call(id, stream);
-    //     call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
-    // });
-
-    //var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
-    const config = { audio: true, video: true};
-    var stream = navigator.mediaDevices.getUserMedia(config);
-    var call = peer.call(id, stream);
-    call.on('stream', function(remote) {
-            // Show stream in some video/canvas element.
-
-            playRemoteStream('remoteStream', remote);
-        });    
+    openStream()
+    .then(stream => {
+        //playLocalStream('localStream', stream);
+        const call = peer.call(id, stream);
+        call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
+    });
 });
 
-
+//Callee
 peer.on('call', call => {
     openStream()
     .then(stream => {
@@ -108,16 +98,15 @@ peer.on('call', call => {
     });
 });
 
-
 $('#ulUser').on('click', 'li', function() {
     const id = $(this).attr('id');
     console.log(id);
-     openStream()
-     .then(stream => {
-         //playLocalStream('localStream', stream);
-         const call = peer.call(id, stream);
+    openStream()
+    .then(stream => {
+        //playLocalStream('localStream', stream);
+        const call = peer.call(id, stream);
         
-         call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
-     }); 
+        call.on('stream', otherStream => playRemoteStream('remoteStream', otherStream));
+    });
 });
 
